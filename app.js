@@ -2,6 +2,10 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const https = require("https");
 
+var mykey = config.API_KEY;
+ 
+var secretkey = config.LIST_KEY;
+
 const app = express();
 const port = 3000
 
@@ -32,11 +36,11 @@ app.post("/", function(req,res){
 
     const jsonData = JSON.stringify(data);
 
-    const url = "https://us12.api.mailchimp.com/3.0/lists/d3a18a35a8"
+    const url = "https://us12.api.mailchimp.com/3.0/lists/" + LIST_KEY
 
     const options = {
         method: "POST",
-        auth: "lgiebler:e40dc0a8fd419b756165466d36104397-us12"
+        auth: "lgiebler:" + API_KEY
     }
 
     const request = https.request(url, options, function(response) {
@@ -53,7 +57,7 @@ app.post("/", function(req,res){
     })
 
 
-    //request.write(jsonData);
+    request.write(jsonData);
     request.end();
 
 });
