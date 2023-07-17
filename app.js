@@ -2,9 +2,13 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const https = require("https");
 
-var mykey = config.API_KEY;
- 
-var secretkey = config.LIST_KEY;
+require("dotenv").config();
+
+
+const API_KEY = process.env.API_KEY
+
+const LIST_ID = process.env.LIST_ID
+
 
 const app = express();
 const port = 3000
@@ -15,6 +19,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.get("/",function(req, res) {
     res.sendFile(__dirname + "/signup.html");
 });
+
 
 app.post("/", function(req,res){
     const firstName = req.body.fName;
@@ -36,17 +41,17 @@ app.post("/", function(req,res){
 
     const jsonData = JSON.stringify(data);
 
-    const url = "https://us12.api.mailchimp.com/3.0/lists/" + LIST_KEY
-
+    const url = "https://us12.api.mailchimp.com/3.0/lists/" + LIST_ID
     const options = {
         method: "POST",
-        auth: "lgiebler:" + API_KEY
+        auth: "lgiebler:" + API_KEY 
+
     }
 
     const request = https.request(url, options, function(response) {
 
         if(response.statusCode === 200) {
-            res.sendFile(__dirname + "/sucess.html");
+            res.sendFile(__dirname + "/success.html");
         } else {
             res.sendFile(__dirname + "/failure.html");
         }
